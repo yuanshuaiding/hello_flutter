@@ -17,23 +17,49 @@ class MyApp extends StatelessWidget {
 }
 
 class MyAppBar extends StatelessWidget {
-  final Widget _title;
+  final Widget title;
 
-  MyAppBar(this._title);
+  MyAppBar({this.title});
 
   @override
   Widget build(BuildContext context) {
     return new Container(
-      height: 42.0,
+      height: 56.0,
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       decoration: new BoxDecoration(
         color: Colors.blue[500],
       ),
       child: new Row(
         children: <Widget>[
-          new IconButton(icon: new Icon(Icons.menu), color: Colors.white, onPressed: null),
-          new Expanded(child: _title),
-          new IconButton(icon: new Icon(Icons.search), color: Colors.white, onPressed: null),
+          new IconButton(
+              icon: new Icon(Icons.menu), color: Colors.white, onPressed: null),
+          new Expanded(child: title),
+          new IconButton(
+              icon: new Icon(Icons.search),
+              color: Colors.white,
+              onPressed: null),
+        ],
+      ),
+    );
+  }
+}
+
+class MyScaffold extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new Material(
+      child: new Column(
+        verticalDirection: VerticalDirection.down,
+        children: <Widget>[
+          new MyAppBar(
+            title: new Text(
+              "Hello,MyScaffold",
+              style: Theme.of(context).primaryTextTheme.title,
+            ),
+          ),
+          new Center(
+            child: new Text("Hello, world!"),
+          ),
         ],
       ),
     );
@@ -66,6 +92,11 @@ class RandomWordListState extends State<RandomWordList> {
   final _saved = new Set<WordPair>();
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
@@ -81,6 +112,10 @@ class RandomWordListState extends State<RandomWordList> {
       ),
       body: _buildSuggestions(),
     );
+  }
+
+  void dispose() {
+    super.dispose();
   }
 
   Widget _buildSuggestions() {
@@ -114,7 +149,7 @@ class RandomWordListState extends State<RandomWordList> {
     );
   }
 
-  _showFavorit() {
+  void _showFavorit() {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) {
       final tiles = _saved.map(
         (pair) {
